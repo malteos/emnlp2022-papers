@@ -15,9 +15,11 @@ pip install -r requirements.txt
 ## Generate embeddings and reduce to 2D
 
 ```bash
+export CUDA_VISIBLE_DEVICES=0
+
 python embed_papers.py --input_path ./Accepted-Papers-20221027.xls \
     --output_path ./papers.json \
-    --model_name_or_path /datasets/huggingface_transformers/pytorch/scincl
+    --model_name_or_path /data/datasets/huggingface_transformers/pytorch/scincl --limit 10
 ```
 
 ## View Web page
