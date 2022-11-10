@@ -18,7 +18,8 @@ import umap
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_path', default=None, type=str, help='Path to Excel sheet downloaded from EMNLP')
-    parser.add_argument('--output_path', default=None, type=str, help='Path to save output JSON file')
+    parser.add_argument('--json_output_path', default=None, type=str, help='Path to save output JSON file')
+    parser.add_argument('--js_output_path', default=None, type=str, help='Path to save output JS file')
     parser.add_argument('--model_name_or_path', default='malteos/scincl', type=str, help='Model used for generating the paper embeddings')
     parser.add_argument('--limit', default=0, type=int, help='Limit input samples')
     parser.add_argument('--batch_size', default=8, type=int, help='Limit input samples')
@@ -34,7 +35,7 @@ if __name__ == "__main__":
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     df = pd.read_excel(args.input_path)  
-    labels = list(sorted(df['Track'].unique()))
+    labels = list(df['Track'].value_counts().index)  #list(sorted(df['Track'].unique()))
 
     if args.limit > 0:
         df = df.sample(n=args.limit).reindex()
@@ -100,6 +101,8 @@ if __name__ == "__main__":
     papers = []
     for idx, (_, row) in enumerate(df.iterrows()):
         # {"loc":[41.575330,13.102411], "title":"aquamarine"},
+        label = labels.index(row['Track'].replace('Ethic Concerns:', ''))
+
         papers.append({
             'loc': embeddings_2d[idx].tolist(),
             'id': row['Submission ID'],
@@ -107,13 +110,19 @@ if __name__ == "__main__":
             'authors': row['Authors'],
             'abstract': (row['Abstract'] if isinstance(row['Abstract'], str) else ''),
             'track': row['Track'],
-            'label': labels.index(row['Track'])
+            'label': label,
         })
 
-    print('labels: ', labels, len(labels))
+    print('labels: ', json.dumps(labels), len(labels))
 
     # save
-    with open(args.output_path, 'w') as f:
+    with open(args.json_output_path, 'w') as f:
         json.dump(papers, f)
+
+    with open(args.js_output_path, 'w') as f:
+        js = f'var data = {json.dumps(papers)};\n'
+        js = f'var labels = {json.dumps(labels)};\n'
+
+        f.write(js)
 
     print('done')
