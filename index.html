@@ -11,27 +11,24 @@
 <meta name="viewport" content="width=device-width" />
 
 
-</head>
-
-<body>
-
-<h1>EMNLP 2022 Papers</h4>
-<div id="post-it">
-	<b>All EMNLP papers on a map.</b> Embeddings are generated with <a href="https://github.com/malteos/scincl">SciNCL (EMNLP paper)</a> and <a href="https://github.com/lmcinnes/umap">UMAP</a>. Created by <a href="https://twitter.com/xyou">@XYOU</a>.
-</div>
-<div id="legendContainer"></div>
-<div id="map"></div>
-
-
-
-<script src="https://unpkg.com/leaflet@1.3.0/dist/leaflet.js"></script>
-<script src="https://opengeo.tech/maps/leaflet-search/src/leaflet-search.js"></script>
 <script>
+function showFullLegend() {
+	[].forEach.call(document.querySelectorAll('.legend-more'), function (el) {
+	el.style.display = 'inline';
+	});
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+	// your code here
+	document.getElementById('loading').style.display = 'none';
 
 	//sample data values for populate map
-	var data = [];
+	var _data = [];
 
-	var map = new L.Map('map', {zoom: 9, center: new L.latLng(data[0].loc) });	//set center from first location
+	var map = new L.Map('map', {
+		zoom: 6, 
+		center: new L.latLng([5, 5])   // data[0].loc
+	});	//set center from first location
 
 	// map.addLayer(new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'));	//base layer
 
@@ -51,29 +48,19 @@
 	map.addControl( controlSearch );
 
 	////////////populate map with markers from sample data
-	var colors = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
-		  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-		  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
-		  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
-		  '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC', 
-		  '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
-		  '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680', 
-		  '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-		  '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
-		  '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF',
-		  "#93F2D7", 	"#9B5C2A", 	"#15B9EE", 	"#0F5997",
-"#409188", 	"#911E20", 	"#1350CE", 	"#10E5B1", 	"#FFF4D7", 	"#CB2582", 	"#CE00BE",
-"#32D5D6", 	"#17232", 	"#608572", 	"#C79BC2", 	"#00F87C", 	"#77772A", 	"#6995BA",
-"#FC6B57", 	"#F07815", 	"#8FD883", 	"#060E27", 	"#96E591", 	"#21D52E", 	"#D00043",
-"#B47162", 	"#1EC227", 	"#4F0F6F", 	"#1D1D58", 	"#947002", 	"#BDE052", 	"#E08C56",
-"#28FCFD", 	"#BB09B", 	"#36486A", 	"#D02E29", 	"#1AE6DB", 	"#3E464C", 	"#A84A8F",
-"#911E7E", 	"#3F16D9", 	"#0F525F", 	"#AC7C0A", 	"#B4C086", 	"#C9D730", 	"#30CC49",
-"#3D6751", 	"#FB4C03", 	"#640FC1", 	"#62C03E", 	"#D3493A", 	"#88AA0B", 	"#406DF9",
-];
-	var labels = ["Commonsense Reasoning", "Computational Social Science and Cultural Analytics", "Dialogue and Interactive Systems", "Discourse and Pragmatics", "Efficient Methods for NLP", "Ethic Concerns:Computational Social Science and Cultural Analytics", "Ethic Concerns:Dialogue and Interactive Systems", "Ethic Concerns:Discourse and Pragmatics", "Ethic Concerns:Efficient Methods for NLP", "Ethic Concerns:Ethics", "Ethic Concerns:Language Modeling and Analysis of Language Models", "Ethic Concerns:Linguistic Theories, Cognitive Modeling and Psycholinguistics", "Ethic Concerns:Multilinguality", "Ethic Concerns:NLP Applications", "Ethic Concerns:Resources and Evaluation", "Ethic Concerns:Sentiment Analysis, Stylistic Analysis, and Argument Mining", "Ethic Concerns:Speech, Vision, Robotics, Multimodal Grounding", "Ethic Concerns:Summarization", "Ethic Concerns:Theme Track", "Ethic Concerns:Unsupervised and Weakly-Supervised Methods in NLP", "Ethics", "Information Extraction", "Information Retrieval and Text Mining", "Interpretability, Interactivity and Analysis of Models for NLP", "Language Modeling and Analysis of Language Models", "Linguistic Theories, Cognitive Modeling and Psycholinguistics", "Machine Learning for NLP", "Machine Translation", "Multilinguality", "NLP Applications", "Natural Language Generation", "Phonology, Morphology and Word Segmentation", "Question Answering", "Resources and Evaluation", "Semantics: Lexical, Sentence level, Textual Inference and Other areas", "Sentiment Analysis, Stylistic Analysis, and Argument Mining", "Speech, Vision, Robotics, Multimodal Grounding", "Summarization", "Syntax, Parsing and their Applications", "Theme Track", "Unsupervised and Weakly-Supervised Methods in NLP"];
+	var colors = [
+	"#63b598", 	"#ce7d78", 	"#ea9e70", 	"#a48a9e", 	"#c6e1e8", 	"#648177", 	"#0d5ac1",
+"#f205e6", 	"#1c0365", 	"#14a9ad", 	"#4ca2f9", 	"#a4e43f", 	"#d298e2", 	"#6119d0",
+"#d2737d", 	"#c0a43c", 	"#f2510e", 	"#651be6", 	"#79806e", 	"#61da5e", 	"#cd2f00",
+"#9348af", 	"#01ac53", 	"#c5a4fb", 	"#996635", 	"#b11573", 	"#4bb473", 	"#75d89e",
+"#2f3f94", 	"#2f7b99", 	"#da967d", 	"#34891f", 	"#b0d87b", 	"#ca4751", 	"#7e50a8",
+"#c4d647", 	"#e0eeb8", 	"#11dec1", 	"#289812", 	"#566ca0", 	"#ffdbe1", 	"#2f1179",
+	];
+
+	// var labels = ["Commonsense Reasoning", "Computational Social Science and Cultural Analytics", "Dialogue and Interactive Systems", "Discourse and Pragmatics", "Efficient Methods for NLP", "Ethic Concerns:Computational Social Science and Cultural Analytics", "Ethic Concerns:Dialogue and Interactive Systems", "Ethic Concerns:Discourse and Pragmatics", "Ethic Concerns:Efficient Methods for NLP", "Ethic Concerns:Ethics", "Ethic Concerns:Language Modeling and Analysis of Language Models", "Ethic Concerns:Linguistic Theories, Cognitive Modeling and Psycholinguistics", "Ethic Concerns:Multilinguality", "Ethic Concerns:NLP Applications", "Ethic Concerns:Resources and Evaluation", "Ethic Concerns:Sentiment Analysis, Stylistic Analysis, and Argument Mining", "Ethic Concerns:Speech, Vision, Robotics, Multimodal Grounding", "Ethic Concerns:Summarization", "Ethic Concerns:Theme Track", "Ethic Concerns:Unsupervised and Weakly-Supervised Methods in NLP", "Ethics", "Information Extraction", "Information Retrieval and Text Mining", "Interpretability, Interactivity and Analysis of Models for NLP", "Language Modeling and Analysis of Language Models", "Linguistic Theories, Cognitive Modeling and Psycholinguistics", "Machine Learning for NLP", "Machine Translation", "Multilinguality", "NLP Applications", "Natural Language Generation", "Phonology, Morphology and Word Segmentation", "Question Answering", "Resources and Evaluation", "Semantics: Lexical, Sentence level, Textual Inference and Other areas", "Sentiment Analysis, Stylistic Analysis, and Argument Mining", "Speech, Vision, Robotics, Multimodal Grounding", "Summarization", "Syntax, Parsing and their Applications", "Theme Track", "Unsupervised and Weakly-Supervised Methods in NLP"];
 
 	var legendHtml = '<b>Legend:</b> '
-	var moreFrom = 15;
+	var moreFrom = 10;
 
 	for (let i = 0; i < labels.length; i++) {
 		if (i >= moreFrom) {
@@ -85,7 +72,7 @@
 		legendHtml += '<span class="legend-item ' + cls +'"><span class="legend-icon" style="background: ' + colors[i]+ '"></span>' + labels[i] + '</span> ';
 
 		if (i == moreFrom) {
-			legendHtml += '<a href="javascript:">...</a>';
+			legendHtml += '<a href="javascript:showFullLegend();">...</a>';
 		}
 	} 
 	document.getElementById('legendContainer').innerHTML = legendHtml;
@@ -98,7 +85,7 @@
 			track =  data[i].track,
 			authors =  data[i].authors,
 			label = data[i].label
-			url = 'https://2022.emnlp.org/'
+			url = 'https://2022.emnlp.org/#unavailable'
 
 		// trackLabel = track.replace(' ', '-').replace(':', '')
 
@@ -113,7 +100,33 @@
 		markersLayer.addLayer(marker);
 	}
 
+}, false);
+
+
 </script>
+
+</head>
+<body>
+
+
+
+<div id="header">
+	<h1>EMNLP 2022 Papers</h1>
+	All EMNLP 2022 papers on a map.
+	Embeddings are generated with <a href="https://github.com/malteos/scincl" target="_blank">SciNCL (EMNLP paper)</a> and <a href="https://github.com/lmcinnes/umap"  target="_blank">UMAP</a>. Created by <a href="https://twitter.com/xyou"  target="_blank">@XYOU</a>.
+</div>
+
+<div id="loading">
+	<h2>Loading ...</h2>
+</div>
+
+<div id="legendContainer"></div>
+<div id="map">
+</div>
+
+<script src="./papers.js"></script>
+<script src="https://unpkg.com/leaflet@1.3.0/dist/leaflet.js"></script>
+<script src="https://opengeo.tech/maps/leaflet-search/src/leaflet-search.js"></script>
 
 </body>
 </html>

@@ -13,6 +13,9 @@ a {
 a:hover {
 	color:rgb(148, 18, 18);
 }
+h1 {
+	margin: 2px;
+}
 h2, h3, h4 {
 	white-space:nowrap;
 	margin:1em 0 0 0;
@@ -33,7 +36,6 @@ h3 a:hover {
 	border:2px solid #696969;
 	margin: 4px auto;
 	/* float:left; */
-	width: 95%;
 	min-height: 600px;
 }
 ul {
@@ -44,10 +46,10 @@ ul {
 li {
 	margin:0 0 2px 18px;
 }
-#post-it {
+#header {
 	/* width:9em; */
 	/* height:9em; */
-	margin: 2em;
+	margin: 4px;
 	padding:1em;
 	/* float:left; */
 	background:#fbf5bf;
@@ -96,7 +98,7 @@ li {
 
 #legendContainer {
     font-size: 0.8rem;
-	margin: 0 2em;
+	margin: 0 4px;
 	padding:1em;
 }
 
@@ -115,3 +117,6 @@ li {
 .legend-more {
     display: none;
 }
+
+
+
