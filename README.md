@@ -18,7 +18,7 @@ pip install -r requirements.txt
 export CUDA_VISIBLE_DEVICES=0
 
 python embed_papers.py --input_path ./Accepted-Papers-20221027.xls \
-    --output_path ./papers.json \
+    --json_output_path ./papers.json --js_output_path ./papers.js \
     --model_name_or_path /data/datasets/huggingface_transformers/pytorch/scincl --limit 10
 ```
 

@@ -121,7 +121,7 @@ if __name__ == "__main__":
 
     with open(args.js_output_path, 'w') as f:
         js = f'var data = {json.dumps(papers)};\n'
-        js = f'var labels = {json.dumps(labels)};\n'
+        js += f'var labels = {json.dumps(labels)};\n'
 
         f.write(js)
 
