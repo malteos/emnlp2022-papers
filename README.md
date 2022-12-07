@@ -1,4 +1,8 @@
-# emnlp2022-papers
+# EMNLP 2022 Papers
+
+Visually explore all conference papers. Embeddings created with SciNCL. 2D reduction with UMAP.
+
+Huggingface Space: https://huggingface.co/spaces/malteos/emnlp2022-papers
 
 ## Download data
 
